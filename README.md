@@ -21,3 +21,5 @@
 
 - **Managing Users:** Admins have the responsibility to manage user accounts.
 - **Managing Questions and Tests:** Admins can manage the database of questions and tests.
+
+## Database ERD
