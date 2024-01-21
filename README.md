@@ -2,7 +2,7 @@
 This is my "<i>Personal</i>" Project.<br>
 
 ## Introduction
-Nowadays, adolescents tend to suffer from autism due to the development of technology. More and more people use editing software to make themselves better in the eyes of everyone, immersed in the unreal world. Forget to develop soft skills such as communication. Therefore, we have developed a system capable of real-time chatting so that people can experience it with other strangers based on realistic life.
+Welcome to our web application dedicated to enhancing your study experience! Our platform empowers users to create and customize questions and tests tailored to their unique learning needs. Whether you are a student preparing for exams, a professional seeking to expand your knowledge, or an educator crafting assessments, our intuitive and user-friendly interface makes the process seamless.
 
 ## Technologies
 - **ASP .NET CORE**
