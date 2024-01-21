@@ -23,3 +23,8 @@
 - **Managing Questions and Tests:** Admins can manage the database of questions and tests.
 
 ## Database ERD
+![Database ERD](https://github.com/bentran1vn/PERSONAL-QUESTION/blob/master/bentran1vn.question.public/database.png)
+
+## Relational Schema
+
+#### © 2024 bentran-vn
