@@ -8,7 +8,7 @@ Nowadays, adolescents tend to suffer from autism due to the development of techn
 - **ASP .NET CORE**
 - **SQL SERVER**
 
-## Roles
+## Permissions
 
 ### User
 
