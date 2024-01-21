@@ -1,4 +1,4 @@
-<h1> QUEST?ON <br> Study By Question Web Application </h1>
+<h1> QUEST?ON - Study By Question Web Application </h1>
 This is my "<i>Personal</i>" Project.<br>
 
 ## Introduction
