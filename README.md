@@ -1,5 +1,8 @@
 # Study By Question Web Application
 
+## Introduction
+Nowadays, adolescents tend to suffer from autism due to the development of technology. More and more people use editing software to make themselves better in the eyes of everyone, immersed in the unreal world. Forget to develop soft skills such as communication. Therefore, we have developed a system capable of real-time chatting so that people can experience it with other strangers based on realistic life.
+
 ## Technologies
 - **ASP .NET CORE**
 - **SQL SERVER**
