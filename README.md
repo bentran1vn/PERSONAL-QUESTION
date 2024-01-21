@@ -1,8 +1,8 @@
 # Study By Question Web Application
 
 ## Technologies
-- **ASP .NET Core
-- **SQL SERVER
+- **ASP .NET Core**
+- **SQL SERVER**
 
 ## Roles
 
