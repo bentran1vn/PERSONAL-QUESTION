@@ -4,7 +4,7 @@ This is my "<i>Personal</i>" Project.<br>
 ## Introduction
 Welcome to our web application dedicated to enhancing your study experience! Our platform empowers users to create and customize questions and tests tailored to their unique learning needs. Whether you are a student preparing for exams, a professional seeking to expand your knowledge, or an educator crafting assessments, our intuitive and user-friendly interface makes the process seamless.
 
-## Technologies
+## Techstacks
 - **ASP .NET CORE**
 - **SQL SERVER**
 
