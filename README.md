@@ -1,10 +1,14 @@
-# Study By Question Web Application
+<h1> QUEST?ON - Study By Question Web Application </h1>
+This is my "<i>Personal</i>" Project.<br>
 
-## Technologies
+## Introduction
+Welcome to our web application dedicated to enhancing your study experience! Our platform empowers users to create and customize questions and tests tailored to their unique learning needs. Whether you are a student preparing for exams, a professional seeking to expand your knowledge, or an educator crafting assessments, our intuitive and user-friendly interface makes the process seamless.
+
+## Techstacks
 - **ASP .NET CORE**
 - **SQL SERVER**
 
-## Roles
+## Permissions
 
 ### User
 
@@ -21,3 +25,10 @@
 
 - **Managing Users:** Admins have the responsibility to manage user accounts.
 - **Managing Questions and Tests:** Admins can manage the database of questions and tests.
+
+## Database ERD
+![Database ERD](https://github.com/bentran1vn/PERSONAL-QUESTION/blob/master/bentran1vn.question.public/database.png)
+
+## Relational Schema
+
+#### © 2024 bentran-vn
