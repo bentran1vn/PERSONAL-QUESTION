@@ -4,5 +4,7 @@ namespace bentran1vn.question.repository.Datas.Entities
 {
     public class Users: IdentityUser
     {
+        public string FirstName { get; set; } = null!;
+        public string LastName { get; set; } = null!;
     }
 }

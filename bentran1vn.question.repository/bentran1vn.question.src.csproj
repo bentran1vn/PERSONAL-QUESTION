@@ -28,9 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Datas\Enums\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Respones\" />
-    <Folder Include="Requests\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
