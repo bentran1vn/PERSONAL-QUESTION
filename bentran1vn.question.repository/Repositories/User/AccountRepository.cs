@@ -32,7 +32,7 @@ namespace bentran1vn.question.src.Repositories.User
                 return string.Empty;
             }
 
-            return JwtExtensions.CreateAccessToken(model)
+            return JwtExtensions.CreateAccessToken(model);
         }
 
         public async Task<IdentityResult> SignUpAsync(SignUpModel model)

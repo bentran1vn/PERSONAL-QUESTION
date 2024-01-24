@@ -34,9 +34,10 @@ namespace bentran1vn.question.src.Extensions
 
             //Creating Secret
             var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
                 .Build();
             var secret = configuration.GetValue<string>("JWT:Secret");
-            //var secret = configuration.Ge
             var key = Encoding.UTF8.GetBytes(secret);
             var authenKey = new SymmetricSecurityKey(key);
             var credential = new SigningCredentials(authenKey, SecurityAlgorithms.HmacSha256);
@@ -47,14 +48,14 @@ namespace bentran1vn.question.src.Extensions
                 new Claim(ClaimTypes.Email, model.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             });
-
+            
             //Creating Token
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Audience = configuration.GetValue<string>("JWT:ValidAudience"),
                 Issuer = configuration.GetValue<string>("JWT:ValidIssuer"),
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = credential,
             };
 

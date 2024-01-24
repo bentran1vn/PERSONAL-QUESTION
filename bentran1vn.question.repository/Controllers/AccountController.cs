@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace bentran1vn.question.src.Controllers
 {
-    [Route("api/[controller]")]
+    //[Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {

@@ -25,7 +25,38 @@ namespace bentran1vn.question.repository
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(o =>
             {
+                //swagger profile
                 o.SwaggerDoc("v1", new OpenApiInfo { Title = "QUEST?ON", Version = "v1" });
+
+                //Swagger Security Information
+                o.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = @"JWT Authorization header using the Bear Scheme." + Environment.NewLine +
+                        "Enter 'Bearer' [space] and then your token in the text input below."
+                        + Environment.NewLine + "Example: 'Bearer 12345abcef'",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = JwtBearerDefaults.AuthenticationScheme
+                });
+
+                o.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = JwtBearerDefaults.AuthenticationScheme,
+                            },
+                            Scheme = "oauth2",
+                            Name = JwtBearerDefaults.AuthenticationScheme,
+                            In = ParameterLocation.Header,
+                        },
+                        new List<string>()
+                    }
+                });
             });
 
             services.Configure<RouteOptions>(options =>
@@ -79,6 +110,9 @@ namespace bentran1vn.question.repository
                 {
                     ValidateIssuer = true,
                     ValidateAudience = true,
+                    RequireExpirationTime = true,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero,
                     ValidAudience = _configuration.GetValue<string>("JWT:ValidAudience"),
                     ValidIssuer = _configuration.GetValue<string>("JWT:ValidIssuer"),
                     //Nơi chung cấp cái token này, localhost !
@@ -111,14 +145,13 @@ namespace bentran1vn.question.repository
                 });
             }
 
+            app.UseRouting();
             //Adding MiddleWare Here !
-
-
             app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
-            app.UseRouting();
+            
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
