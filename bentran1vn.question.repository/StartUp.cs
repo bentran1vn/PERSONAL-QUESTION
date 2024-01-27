@@ -1,6 +1,8 @@
 ﻿using bentran1vn.question.repository.Database;
 using bentran1vn.question.repository.Datas.Entities;
+using bentran1vn.question.src.Middlewares;
 using bentran1vn.question.src.Repositories.User;
+using bentran1vn.question.src.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +14,7 @@ namespace bentran1vn.question.repository
 {
     public class StartUp
     {
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
 
         public StartUp(WebApplicationBuilder builder, IWebHostEnvironment env)
         {
@@ -21,6 +23,7 @@ namespace bentran1vn.question.repository
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddControllers().AddNewtonsoftJson();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(o =>
@@ -134,6 +137,12 @@ namespace bentran1vn.question.repository
             {
                 app.UseDeveloperExceptionPage();
             }
+            //else
+            //{
+            //    app.UseExceptionHandler("/error");
+            //    //endpoint if needed
+            //    app.UseHsts();
+            //}
             var isUserSwagger = _configuration.GetValue<bool>("UseSwagger", false);
             if (isUserSwagger)
             {
@@ -149,6 +158,7 @@ namespace bentran1vn.question.repository
             //Adding MiddleWare Here !
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.MapControllers();
             
@@ -162,6 +172,7 @@ namespace bentran1vn.question.repository
         {
             //Adding Services Here !
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IUserServices, UserServices>();
         }
     }
 }

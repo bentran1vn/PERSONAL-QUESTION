@@ -9,8 +9,6 @@
             var startup = new StartUp(builder, builder.Environment);
             startup.ConfigureServices(builder.Services);
 
-            //Console.WriteLine(builder.Configuration.GetValue<string>("Secret"));
-
             var app = builder.Build();
             startup.Configure(app, builder.Environment);
             app.Run();

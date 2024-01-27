@@ -1,15 +1,33 @@
-﻿using bentran1vn.question.src.Requests.UserRequests;
+﻿using bentran1vn.question.repository.Datas.Entities;
+using bentran1vn.question.src.Datas.Entities;
+using bentran1vn.question.src.Requests.UserRequests;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Sockets;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace bentran1vn.question.src.Extensions
 {
     public class JwtExtensions
     {
-        public static string CreateAccessToken(SignInModel model)
+        public static RefreshTokens CreateRefreshToken(Users users)
+        {
+            var randomByte = new Byte[64];
+            var tokenCovert = Convert.ToBase64String(randomByte);
+            var refreshToken = new RefreshTokens()
+            {
+                UserId = users.Id,
+                Expires = DateTime.UtcNow.AddDays(10),
+                IsActive = true,
+                Token = tokenCovert,
+                User = users
+            };
+            return refreshToken;
+        }
+        public static string CreateAccessToken(Users user)
         {
 
             /*
@@ -45,7 +63,7 @@ namespace bentran1vn.question.src.Extensions
             //Creating Token Payload
             var claims = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Email, model.Email),
+                new Claim(ClaimTypes.Email, user.Email),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             });
             

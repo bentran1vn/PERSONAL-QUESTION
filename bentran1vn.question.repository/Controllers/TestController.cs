@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using bentran1vn.question.src.Repositories.User;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +10,17 @@ namespace bentran1vn.question.src.Controllers
     //[ApiController]
     public class TestController : ControllerBase
     {
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        IAccountRepository _accountRepository;
+        public TestController(IAccountRepository accountRepository) {
+            _accountRepository = accountRepository;
+        }
+
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("api/[controller]/testing")]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok("Mlem");
+            var users = await _accountRepository.GetAllUsersAsync();
+            return Ok(users);
         }
 
         [HttpPost("api/[controller]/testing")]
