@@ -9,8 +9,9 @@ namespace bentran1vn.question.src.Middlewares
             {
                 builder.UseAuthentication();
                 builder.UseAuthorization();
+                
                 next(builder);
-                //builder.UseMiddleware<GlobalExceptionMiddleware>();
+                builder.UseMiddleware<GlobalExceptionMiddleware>();
             };
         }
     }

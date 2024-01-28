@@ -16,6 +16,8 @@ namespace bentran1vn.question.src.Extensions
         public static RefreshTokens CreateRefreshToken(Users users)
         {
             var randomByte = new Byte[64];
+            Random random = new Random();
+            random.NextBytes(randomByte);
             var tokenCovert = Convert.ToBase64String(randomByte);
             var refreshToken = new RefreshTokens()
             {
@@ -23,11 +25,10 @@ namespace bentran1vn.question.src.Extensions
                 Expires = DateTime.UtcNow.AddDays(10),
                 IsActive = true,
                 Token = tokenCovert,
-                User = users
             };
             return refreshToken;
         }
-        public static string CreateAccessToken(Users user)
+        public static string CreateAccessToken(Users user)  
         {
 
             /*

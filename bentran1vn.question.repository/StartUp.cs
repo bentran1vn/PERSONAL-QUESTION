@@ -1,6 +1,7 @@
 ﻿using bentran1vn.question.repository.Database;
 using bentran1vn.question.repository.Datas.Entities;
 using bentran1vn.question.src.Middlewares;
+using bentran1vn.question.src.Repositories.RefreshToken;
 using bentran1vn.question.src.Repositories.User;
 using bentran1vn.question.src.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -129,8 +130,6 @@ namespace bentran1vn.question.repository
             {
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             });
-
-            
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -168,14 +167,13 @@ namespace bentran1vn.question.repository
             {
                 endpoint.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
             });
-
-            
         }
 
         private void AddDI(IServiceCollection services)
         {
             //Adding Services Here !
             services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IUserServices, UserServices>();
             services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
         }

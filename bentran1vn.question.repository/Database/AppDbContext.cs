@@ -12,12 +12,11 @@ namespace bentran1vn.question.repository.Database
         public AppDbContext()
         {
         }
-
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
-
+        DbSet<RefreshTokens> RefreshTokens { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
