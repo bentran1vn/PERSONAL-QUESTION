@@ -23,9 +23,11 @@ namespace bentran1vn.question.repository
 
         public void ConfigureServices(IServiceCollection services)
         {
+            
             //services.AddControllers().AddNewtonsoftJson();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
+            AddDI(services);
             services.AddSwaggerGen(o =>
             {
                 //swagger profile
@@ -128,7 +130,7 @@ namespace bentran1vn.question.repository
                 options.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
             });
 
-            AddDI(services);
+            
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -155,22 +157,27 @@ namespace bentran1vn.question.repository
             }
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
             //Adding MiddleWare Here !
 
+            app.UseMiddleware<GlobalExceptionMiddleware>();
+
             app.MapControllers();
-            
             app.UseEndpoints(endpoint =>
             {
                 endpoint.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            
         }
 
         private void AddDI(IServiceCollection services)
         {
             //Adding Services Here !
-            services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserServices, UserServices>();
+            services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
         }
     }
 }

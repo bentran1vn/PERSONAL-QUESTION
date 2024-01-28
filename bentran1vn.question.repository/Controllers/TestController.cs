@@ -27,7 +27,7 @@ namespace bentran1vn.question.src.Controllers
         [Authorize]
         public IActionResult Post()
         {
-            return Ok("Mlem");
+            throw new Exception("ahihi");
         }
     }
 }

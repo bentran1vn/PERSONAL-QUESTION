@@ -5,11 +5,18 @@ namespace bentran1vn.question.src.Middlewares
 {
     public class GlobalExceptionMiddleware
     {
-        public async Task InvokeAsync(HttpContext context, Func<Task> next)
+        private readonly RequestDelegate _next;
+
+        public GlobalExceptionMiddleware(RequestDelegate next)
+        {
+            _next = next;
+        }
+
+        public async Task InvokeAsync(HttpContext context)
         {
             try
             {
-                await next();
+                await _next(context);
             }
             catch (Exception ex)
             {
@@ -17,7 +24,7 @@ namespace bentran1vn.question.src.Middlewares
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
@@ -31,8 +38,8 @@ namespace bentran1vn.question.src.Middlewares
                 }
             };
 
-            return context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
-
     }
+
 }
