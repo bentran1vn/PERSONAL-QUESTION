@@ -156,9 +156,6 @@ namespace bentran1vn.question.repository
 
             app.UseRouting();
             //Adding MiddleWare Here !
-            app.UseAuthentication();
-            app.UseAuthorization();
-            //app.UseMiddleware<GlobalExceptionMiddleware>();
 
             app.MapControllers();
             
@@ -171,6 +168,7 @@ namespace bentran1vn.question.repository
         private void AddDI(IServiceCollection services)
         {
             //Adding Services Here !
+            services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IUserServices, UserServices>();
         }
