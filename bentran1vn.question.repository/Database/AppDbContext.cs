@@ -26,7 +26,6 @@ namespace bentran1vn.question.repository.Database
                 .AddJsonFile("appsettings.Development.json")
                 .Build();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            //Console.WriteLine(connectionString);
             optionsBuilder.UseSqlServer(connectionString);
         }
 

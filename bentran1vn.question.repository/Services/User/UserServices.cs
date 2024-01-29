@@ -2,6 +2,7 @@
 using bentran1vn.question.src.Extensions;
 using bentran1vn.question.src.Repositories.RefreshToken;
 using bentran1vn.question.src.Repositories.User;
+using bentran1vn.question.src.Requests.Account;
 using bentran1vn.question.src.Requests.UserRequests;
 using bentran1vn.question.src.Respones.Account;
 using Microsoft.AspNetCore.Identity;
@@ -33,23 +34,35 @@ namespace bentran1vn.question.src.Services.User
                 Task<SignInResult> signInTask = _signInManager.PasswordSignInAsync
                     (model.Email, model.Password, false, true);
                 await Task.WhenAll(userTask, signInTask);
-                var refreshTokens = await _refreshTokenRepository.GetRefreshTokens(userTask.Result.Id);
                 if (signInTask.Result.Succeeded)
                 {
-                    if (refreshTokens == null || !refreshTokens.Any())
+                    var tokenModel = JwtExtensions.CreateRefreshAndAccessToken(userTask.Result, DateTime.MinValue, DateTime.MinValue);
+                    await _refreshTokenRepository.AddingRefreshTokenAsync(tokenModel.RefreshToken);
+                    var respone = new SignInRespones()
                     {
-                        var accessToken = JwtExtensions.CreateAccessToken(userTask.Result);
-                        var refreshToken = JwtExtensions.CreateRefreshToken(userTask.Result);
-                        await _refreshTokenRepository.AddingRefreshToken(refreshToken);
-                        var respone = new SignInRespones()
-                        {
-                            AccessToken = accessToken,
-                            RefreshToken = refreshToken.Token
-                        };
-                        return respone;
-                    }
+                        AccessToken = tokenModel.AccessToken,
+                        RefreshToken = tokenModel.RefreshToken.Token
+                    };
+                    return respone;
                 }
                 throw new Exception("Login Fail !");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task SignOutAsync(RefreshTokenModel model)
+        {
+            try
+            {
+                var token = await _refreshTokenRepository.GetRefreshTokenAsync(model.refreshToken);
+                if (token == null)
+                {
+                    throw new Exception("Can not find refresh token !");
+                }
+                await _refreshTokenRepository.RemovingRefreshTokenAsync(token);
             } catch (Exception ex)
             {
                 throw new Exception(ex.Message);

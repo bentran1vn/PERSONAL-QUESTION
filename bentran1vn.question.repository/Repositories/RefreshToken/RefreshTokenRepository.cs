@@ -9,7 +9,7 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
     {
         public RefreshTokenRepository() {}
 
-        public async Task AddingRefreshToken(RefreshTokens refreshToken)
+        public async Task AddingRefreshTokenAsync(RefreshTokens refreshToken)
         {
             using (var context = new AppDbContext())
             {
@@ -21,7 +21,6 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
                     {
                         throw new Exception("Can not adding new refresh token !");
                     }
-                    //ValueTask || Task
                 }
                 catch (Exception ex)
                 {
@@ -30,7 +29,7 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
             }
         }
 
-        public async Task<IEnumerable<RefreshTokens>> GetRefreshTokens(string userId)
+        public async Task<IEnumerable<RefreshTokens>> GetRefreshTokensAsync(string userId)
         {
             using (var context = new AppDbContext())
             {
@@ -38,8 +37,6 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
                 {
                     var refreshToken = await context.Set<RefreshTokens>().Where(refreshToken => refreshToken.UserId == userId).ToListAsync();
                     return refreshToken;
-                    throw new Exception("Can not find refresh tokens !");
-                    
                 }
                 catch (Exception ex)
                 {
@@ -48,9 +45,41 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
             }
         }
 
-        public Task<bool> RefreshRefreshToken(string refreshToken)
+        public async Task<RefreshTokens> GetRefreshTokenAsync(string requestToken)
         {
-            throw new NotImplementedException();
+            using ( var context = new AppDbContext())
+            {
+                try
+                {
+                    var refreshToken = await context.Set<RefreshTokens>()
+                        .Include(rt => rt.User)
+                        .FirstOrDefaultAsync(token => token.Token == requestToken);
+                    if(refreshToken != null)
+                    {
+                        return refreshToken;
+                    }
+                    throw new Exception("Can not find refresh tokens !");
+                }
+                catch(Exception ex)
+                {
+                    throw new Exception($"Error retrieving refresh tokens: {ex.Message}");
+                }
+            }
+        }
+
+        public async Task RemovingRefreshTokenAsync(RefreshTokens refreshToken)
+        {
+            using (var context = new AppDbContext())
+            {
+                try
+                {
+                    var result = context.Set<RefreshTokens>().Remove(refreshToken);
+                    await context.SaveChangesAsync();
+                } catch(Exception ex)
+                {
+                    throw new Exception($"Error removing refresh tokens: {ex.Message}");
+                }
+            }
         }
     }
 }

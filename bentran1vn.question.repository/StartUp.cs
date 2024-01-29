@@ -3,6 +3,7 @@ using bentran1vn.question.repository.Datas.Entities;
 using bentran1vn.question.src.Middlewares;
 using bentran1vn.question.src.Repositories.RefreshToken;
 using bentran1vn.question.src.Repositories.User;
+using bentran1vn.question.src.Services.RefreshToken;
 using bentran1vn.question.src.Services.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -175,6 +176,7 @@ namespace bentran1vn.question.repository
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IUserServices, UserServices>();
+            services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
             services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
         }
     }

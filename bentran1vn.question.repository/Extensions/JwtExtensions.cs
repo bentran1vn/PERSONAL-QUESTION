@@ -1,6 +1,7 @@
 ﻿using bentran1vn.question.repository.Datas.Entities;
 using bentran1vn.question.src.Datas.Entities;
 using bentran1vn.question.src.Requests.UserRequests;
+using bentran1vn.question.src.Respones.Account;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -11,22 +12,50 @@ using System.Text;
 
 namespace bentran1vn.question.src.Extensions
 {
+    public class TokenModel
+    {
+        public string AccessToken { get; set; }
+        public RefreshTokens RefreshToken { get; set; }
+    }
     public class JwtExtensions
     {
-        public static RefreshTokens CreateRefreshToken(Users users)
+        public static TokenModel CreateRefreshAndAccessToken(Users user, DateTime exp, DateTime iat)
         {
-            var randomByte = new Byte[64];
-            Random random = new Random();
-            random.NextBytes(randomByte);
-            var tokenCovert = Convert.ToBase64String(randomByte);
-            var refreshToken = new RefreshTokens()
+            var issuedAt = iat;
+            var expireDay = exp;
+
+            if ((!exp.Equals(default(DateTime)) && exp != DateTime.MinValue) && (!iat.Equals(default(DateTime)) && iat != DateTime.MinValue))
             {
-                UserId = users.Id,
-                Expires = DateTime.UtcNow.AddDays(10),
-                IsActive = true,
-                Token = tokenCovert,
+                issuedAt = iat;
+                expireDay = exp;
+            }
+            else
+            {
+                issuedAt = DateTime.UtcNow;
+                expireDay = DateTime.UtcNow.AddDays(10);
+            }
+            var accessToken = JwtExtensions.CreateAccessToken(user);
+            var refreshToken = JwtExtensions.CreateRefreshToken(user.Id, expireDay, issuedAt);
+
+            var result = new TokenModel()
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
             };
-            return refreshToken;
+            return result;
+        }
+        public static RefreshTokens CreateRefreshToken(string userId, DateTime exp, DateTime iat)
+        {
+            var token = CreateRandomToken();
+
+            return new RefreshTokens
+            {
+                UserId = userId,
+                Expires = exp,
+                IssuedAt = iat,
+                IsActive = true,
+                Token = token,
+            };
         }
         public static string CreateAccessToken(Users user)  
         {
@@ -81,6 +110,15 @@ namespace bentran1vn.question.src.Extensions
             var token = tokenHadler.CreateToken(tokenDescriptor);
 
             return tokenHadler.WriteToken(token);
+        }
+
+        public static string CreateRandomToken()
+        {
+            var random = new Random();
+            var randomBytes = new byte[64];
+            random.NextBytes(randomBytes);
+            var token = Convert.ToBase64String(randomBytes);
+            return token;
         }
     }
 }

@@ -5,8 +5,9 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
 {
     public interface IRefreshTokenRepository
     {
-        public Task AddingRefreshToken(RefreshTokens refreshToken);
-        public Task<bool> RefreshRefreshToken(string userId);
-        public Task<IEnumerable<RefreshTokens>> GetRefreshTokens(string userId);
+        public Task AddingRefreshTokenAsync(RefreshTokens refreshToken);
+        public Task<RefreshTokens> GetRefreshTokenAsync(string token);
+        public Task<IEnumerable<RefreshTokens>> GetRefreshTokensAsync(string userId);
+        public Task RemovingRefreshTokenAsync(RefreshTokens refreshToken);
     }
 }

@@ -17,6 +17,7 @@ namespace bentran1vn.question.src.Controllers
 
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet("api/[controller]/testing")]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             var users = await _accountRepository.GetAllUsersAsync();
