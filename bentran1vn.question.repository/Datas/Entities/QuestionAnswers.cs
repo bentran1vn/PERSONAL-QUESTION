@@ -8,7 +8,7 @@ namespace bentran1vn.question.repository.Datas.Entities
         public string Content { get; set; }
         public int UserQuestionId { get; set; }
         public AnswerType AnswerType { get; set; }
-        public UserQuestion UserQuestion { get; set; }
+        public UserQuestions UserQuestion { get; set; }
 
         public QuestionAnswers() 
         {

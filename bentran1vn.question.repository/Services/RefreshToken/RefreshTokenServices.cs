@@ -20,7 +20,6 @@ namespace bentran1vn.question.src.Services.RefreshToken
             try
             {
                 var token = await _refreshTokenRepository.GetRefreshTokenAsync(model.refreshToken);
-                var user = token.User;
                 if (token == null)
                 {
                     throw new Exception("Can not find refresh token !");
@@ -32,7 +31,7 @@ namespace bentran1vn.question.src.Services.RefreshToken
                         throw new Exception("Invalid refresh token !");
                     }
                     await _refreshTokenRepository.RemovingRefreshTokenAsync(token);
-                    var result = JwtExtensions.CreateRefreshAndAccessToken(user, token.Expires, token.IssuedAt);
+                    var result = JwtExtensions.CreateRefreshAndAccessToken(token.UserId, token.Expires, token.IssuedAt);
                     await _refreshTokenRepository.AddingRefreshTokenAsync(result.RefreshToken);
                     return new SignInRespones()
                     {

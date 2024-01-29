@@ -36,7 +36,7 @@ namespace bentran1vn.question.src.Services.User
                 await Task.WhenAll(userTask, signInTask);
                 if (signInTask.Result.Succeeded)
                 {
-                    var tokenModel = JwtExtensions.CreateRefreshAndAccessToken(userTask.Result, DateTime.MinValue, DateTime.MinValue);
+                    var tokenModel = JwtExtensions.CreateRefreshAndAccessToken(userTask.Result.Id, DateTime.MinValue, DateTime.MinValue);
                     await _refreshTokenRepository.AddingRefreshTokenAsync(tokenModel.RefreshToken);
                     var respone = new SignInRespones()
                     {
@@ -80,7 +80,7 @@ namespace bentran1vn.question.src.Services.User
             };
             await _userManager.CreateAsync(user, model.Password);
 
-            var tokenModel = JwtExtensions.CreateRefreshAndAccessToken(user, DateTime.MinValue, DateTime.MinValue);
+            var tokenModel = JwtExtensions.CreateRefreshAndAccessToken(user.Id, DateTime.MinValue, DateTime.MinValue);
             await _refreshTokenRepository.AddingRefreshTokenAsync(tokenModel.RefreshToken);
 
             var respone = new SignInRespones()

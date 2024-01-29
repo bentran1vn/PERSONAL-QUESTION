@@ -53,13 +53,13 @@ namespace bentran1vn.question.repository.Database
                 .WithMany(u => u.RefreshTokens)
                 .HasForeignKey(reToken => reToken.UserId);
 
-            modelBuilder.Entity<UserQuestion>()
+            modelBuilder.Entity<UserQuestions>()
                 .HasOne<Users>(ques => ques.User)
                 .WithMany(u => u.UserQuestions)
                 .HasForeignKey(ques => ques.UserId);
 
             modelBuilder.Entity<QuestionAnswers>()
-                .HasOne<UserQuestion>(ans => ans.UserQuestion)
+                .HasOne<UserQuestions>(ans => ans.UserQuestion)
                 .WithMany(ques => ques.QuestionAnswers)
                 .HasForeignKey(ans => ans.UserQuestionId);
         }
@@ -72,7 +72,7 @@ namespace bentran1vn.question.repository.Database
 
             foreach (var insertedEntry in insertedEntries)
             {
-                if (insertedEntry is UserQuestion questionEntity)
+                if (insertedEntry is UserQuestions questionEntity)
                 {
                     Entry(questionEntity).Property("CreatedDate").CurrentValue = DateTime.Now;
                 }
@@ -84,7 +84,7 @@ namespace bentran1vn.question.repository.Database
 
             foreach (var modifiedEntry in modifiedEntries)
             {
-                if (modifiedEntry is UserQuestion questionEntity)
+                if (modifiedEntry is UserQuestions questionEntity)
                 {
                     Entry(questionEntity).Property("UpdatedDate").CurrentValue = DateTimeOffset.UtcNow;
                 }

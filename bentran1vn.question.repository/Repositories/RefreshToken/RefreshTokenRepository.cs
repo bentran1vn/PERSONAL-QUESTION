@@ -35,7 +35,9 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
             {
                 try
                 {
-                    var refreshToken = await context.Set<RefreshTokens>().Where(refreshToken => refreshToken.UserId == userId).ToListAsync();
+                    var refreshToken = await context.Set<RefreshTokens>()
+                        .Where(refreshToken => refreshToken.UserId == userId)
+                        .ToListAsync();
                     return refreshToken;
                 }
                 catch (Exception ex)
@@ -52,7 +54,6 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
                 try
                 {
                     var refreshToken = await context.Set<RefreshTokens>()
-                        .Include(rt => rt.User)
                         .FirstOrDefaultAsync(token => token.Token == requestToken);
                     if(refreshToken != null)
                     {

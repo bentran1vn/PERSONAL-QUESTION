@@ -17,9 +17,15 @@ namespace bentran1vn.question.src.Extensions
         public string AccessToken { get; set; }
         public RefreshTokens RefreshToken { get; set; }
     }
+
+    public class ClaimModel
+    {
+        public string Type { get; set; }
+        public string Value { get; set; }
+    }
     public class JwtExtensions
     {
-        public static TokenModel CreateRefreshAndAccessToken(Users user, DateTime exp, DateTime iat)
+        public static TokenModel CreateRefreshAndAccessToken(string userId, DateTime exp, DateTime iat)
         {
             var issuedAt = iat;
             var expireDay = exp;
@@ -34,8 +40,8 @@ namespace bentran1vn.question.src.Extensions
                 issuedAt = DateTime.UtcNow;
                 expireDay = DateTime.UtcNow.AddDays(10);
             }
-            var accessToken = JwtExtensions.CreateAccessToken(user);
-            var refreshToken = JwtExtensions.CreateRefreshToken(user.Id, expireDay, issuedAt);
+            var accessToken = JwtExtensions.CreateAccessToken(userId);
+            var refreshToken = JwtExtensions.CreateRefreshToken(userId, expireDay, issuedAt);
 
             var result = new TokenModel()
             {
@@ -57,7 +63,7 @@ namespace bentran1vn.question.src.Extensions
                 Token = token,
             };
         }
-        public static string CreateAccessToken(Users user)  
+        public static string CreateAccessToken(string userId)  
         {
 
             /*
@@ -93,7 +99,7 @@ namespace bentran1vn.question.src.Extensions
             //Creating Token Payload
             var claims = new ClaimsIdentity(new[]
             {
-                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, userId),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             });
             
@@ -111,7 +117,6 @@ namespace bentran1vn.question.src.Extensions
 
             return tokenHadler.WriteToken(token);
         }
-
         public static string CreateRandomToken()
         {
             var random = new Random();
@@ -119,6 +124,27 @@ namespace bentran1vn.question.src.Extensions
             random.NextBytes(randomBytes);
             var token = Convert.ToBase64String(randomBytes);
             return token;
+        }
+        public static Dictionary<string, string> DecodeJwt(string jwt)
+        {
+            var tokenHadler = new JwtSecurityTokenHandler();
+
+            var jsonToken = tokenHadler.ReadToken(jwt) as JwtSecurityToken;
+
+            var claims = jsonToken?.Claims;
+
+            Dictionary<string, string> claimMap = new Dictionary<string, string>();
+
+            foreach (var item in claims)
+            {
+                claimMap.Add(item.Type, item.Value);
+            }
+
+            if (claimMap.Count == 0 || claimMap == null) 
+            {
+                throw new Exception("Claim Empty !");
+            }
+            return claimMap;
         }
     }
 }

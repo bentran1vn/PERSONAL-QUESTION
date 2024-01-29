@@ -9,12 +9,12 @@ namespace bentran1vn.question.repository.Datas.Entities
         public string LastName { get; set; } = null!;
         public ICollection<RefreshTokens> RefreshTokens { get; set; }
 
-        public ICollection<UserQuestion> UserQuestions { get; set; }
+        public ICollection<UserQuestions> UserQuestions { get; set; }
 
         public Users() 
         {
             RefreshTokens = new List<RefreshTokens>() { };
-            UserQuestions = new List<UserQuestion>() { };
+            UserQuestions = new List<UserQuestions>() { };
         }
     }
 }

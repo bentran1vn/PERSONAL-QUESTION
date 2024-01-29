@@ -28,7 +28,7 @@ namespace bentran1vn.question.src.Controllers
             return Ok(result);
         }
 
-        [HttpPost("/refreshToken")]
+        [HttpPost("/refresh_token")]
         public async Task<IActionResult> refreshToken(RefreshTokenModel model)
         {
             var result = await _refreshTokenServices.refreshAccessTokenAsync(model);

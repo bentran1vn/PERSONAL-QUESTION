@@ -1,6 +1,12 @@
-﻿namespace bentran1vn.question.src.Repositories.UserQuestion
+﻿using bentran1vn.question.repository.Datas.Entities;
+using bentran1vn.question.src.Requests.UserQuestion;
+
+namespace bentran1vn.question.src.Repositories.UserQuestion
 {
-    public class IUserQuestionRepository
+    public interface IUserQuestionRepository
     {
+        public Task AddNewUserQuestionAsync(AddNewQuestionModel model, string userId);
+        public Task<IEnumerable<UserQuestions>> GetAllUserQuestionAsync(string userId);
+        public Task<UserQuestions> GetUserQuestionContentAsync(string userId, string questionId);
     }
 }

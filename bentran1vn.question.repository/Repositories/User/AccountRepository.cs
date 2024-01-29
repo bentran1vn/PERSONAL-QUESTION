@@ -30,7 +30,6 @@ namespace bentran1vn.question.src.Repositories.User
                 }
             }
         }
-
         public async Task<Users> GetUsersAsync(string email)
         {
             using (var context = new AppDbContext())

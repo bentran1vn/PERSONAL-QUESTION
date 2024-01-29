@@ -1,6 +1,6 @@
 ﻿namespace bentran1vn.question.repository.Datas.Entities
 {
-    public class UserQuestion
+    public class UserQuestions
     {
         public int Id { get; set; }
         public string Content { get; set; }
@@ -9,7 +9,7 @@
 
         public ICollection<QuestionAnswers> QuestionAnswers { get; set; }
 
-        public UserQuestion() 
+        public UserQuestions() 
         {
             QuestionAnswers = new List<QuestionAnswers>() { };
         }
