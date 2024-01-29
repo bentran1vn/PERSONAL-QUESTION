@@ -1,10 +1,14 @@
 ﻿using bentran1vn.question.repository.Database;
 using bentran1vn.question.repository.Datas.Entities;
 using bentran1vn.question.src.Middlewares;
+using bentran1vn.question.src.Repositories.QuestionAnswer;
 using bentran1vn.question.src.Repositories.RefreshToken;
 using bentran1vn.question.src.Repositories.User;
+using bentran1vn.question.src.Repositories.UserQuestion;
+using bentran1vn.question.src.Services.QuestionAnswer;
 using bentran1vn.question.src.Services.RefreshToken;
 using bentran1vn.question.src.Services.User;
+using bentran1vn.question.src.Services.UserQuestion;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -175,8 +179,14 @@ namespace bentran1vn.question.repository
             //Adding Services Here !
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IUserQuestionRepository, UserQuestionRepository>();
+            services.AddScoped<IQuestionAnswerRepository, QuestionAnswerRepository>();
+
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
+            services.AddScoped<IUserQuestionServices, UserQuestionServices>();
+            services.AddScoped<IQuestionAnswerServices, QuestionAnswerServices>();
+
             services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
         }
     }
