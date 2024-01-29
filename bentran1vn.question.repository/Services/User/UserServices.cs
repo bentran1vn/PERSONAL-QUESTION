@@ -69,7 +69,7 @@ namespace bentran1vn.question.src.Services.User
             }
         }
 
-        public async Task<IdentityResult> SignUpAsync(SignUpModel model)
+        public async Task<SignInRespones> SignUpAsync(SignUpModel model)
         {
             var user = new Users()
             {
@@ -78,7 +78,17 @@ namespace bentran1vn.question.src.Services.User
                 Email = model.Email,
                 UserName = model.Email
             };
-            return await _userManager.CreateAsync(user, model.Password);
+            await _userManager.CreateAsync(user, model.Password);
+
+            var tokenModel = JwtExtensions.CreateRefreshAndAccessToken(user, DateTime.MinValue, DateTime.MinValue);
+            await _refreshTokenRepository.AddingRefreshTokenAsync(tokenModel.RefreshToken);
+
+            var respone = new SignInRespones()
+            {
+                AccessToken = tokenModel.AccessToken,
+                RefreshToken = tokenModel.RefreshToken.Token
+            };
+            return respone;
         }
     }
 }

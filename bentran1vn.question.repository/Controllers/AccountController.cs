@@ -25,7 +25,7 @@ namespace bentran1vn.question.src.Controllers
         public async Task<IActionResult> SignUp(SignUpModel model)
         {
             var result = await _userServices.SignUpAsync(model);
-            return Ok(result.Succeeded);
+            return Ok(result);
         }
 
         [HttpPost("/refreshToken")]
