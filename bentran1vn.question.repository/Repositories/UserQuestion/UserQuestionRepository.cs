@@ -49,9 +49,37 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
             }
         }
 
-        public async Task<UserQuestions> GetUserQuestionContentAsync(string userId, string questionId)
+        public async Task<UserQuestions> GetUserQuestionContentAsync(string userId, int questionId)
         {
-            throw new NotImplementedException();
+            using (var context = new AppDbContext())
+            {
+                try
+                {
+                    var result = await context.Set<UserQuestions>()
+                        .FirstOrDefaultAsync(ques => ques.UserId == userId && ques.Id == questionId);
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        public async Task RemoveUserQuestionAsync(UserQuestions questions)
+        {
+            using (var context = new AppDbContext())
+            {
+                try
+                {
+                    var result = context.Set<UserQuestions>().Remove(questions);
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
         }
     }
 }

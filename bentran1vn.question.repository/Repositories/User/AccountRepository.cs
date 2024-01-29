@@ -17,11 +17,6 @@ namespace bentran1vn.question.src.Repositories.User
                 {
                     var users = await context.Users.ToListAsync();
 
-                    if (users == null || !users.Any())
-                    {
-                        return Enumerable.Empty<Users>();
-                    }
-
                     return users;
 
                 } catch (Exception ex)

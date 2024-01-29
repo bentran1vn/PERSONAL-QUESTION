@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace bentran1vn.question.src.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/user_questions")]
     [ApiController]
     public class UserQuestionController : ControllerBase
     {
@@ -17,44 +17,64 @@ namespace bentran1vn.question.src.Controllers
             _userQuestionServices = userQuestionServices;
         }
 
-        [HttpPost("/add_new_question")]
+        [HttpPost("")]
         [Authorize]
         public async Task<IActionResult> AddNewQuestion(AddNewQuestionModel model)
         {
-            var authorizationHeader =  HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var userId = HeaderExtensions.GetUserIdFromTokenHeader(HttpContext);
 
-            if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
+            if (userId == String.Empty)
             {
-                var accessToken = authorizationHeader.Substring("Bearer ".Length);
-
-                var tokenPayLoad = JwtExtensions.DecodeJwt(accessToken);
-
-                await _userQuestionServices.AddingNewUserQuestionAsync(model, tokenPayLoad["nameid"]);
-
-                return Ok("Adding New Question Successfully !");
+                return BadRequest("Adding New Question Fail !");
             }
 
-            return BadRequest("Adding New Question Fail !");
+            await _userQuestionServices.AddingNewUserQuestionAsync(model, userId);
+
+            return Ok("Adding New Question Successfully !");
         }
 
-        [HttpGet("/get_all_question")]
+        [HttpGet("")]
         [Authorize]
         public async Task<IActionResult> GetAllQuestion()
         {
-            var authorizationHeader = HttpContext.Request.Headers["Authorization"].FirstOrDefault();
+            var userId = HeaderExtensions.GetUserIdFromTokenHeader(HttpContext);
 
-            if (!string.IsNullOrEmpty(authorizationHeader) && authorizationHeader.StartsWith("Bearer "))
-            {
-                var accessToken = authorizationHeader.Substring("Bearer ".Length);
-
-                var tokenPayLoad = JwtExtensions.DecodeJwt(accessToken);
-
-                var result = await _userQuestionServices.GetAllUserQuestionAsync(tokenPayLoad["nameid"]);
-
-                return Ok(result);
+            if (userId == String.Empty) {
+                return BadRequest("Get User's Questions Fail !");
             }
 
-            return BadRequest("Get User's Questions Fail !");
+            var result = await _userQuestionServices.GetAllUserQuestionAsync(userId);
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserQuestion(int id)
+        {
+            var userId = HeaderExtensions.GetUserIdFromTokenHeader(HttpContext);
+
+            if (userId == String.Empty)
+            {
+                return BadRequest("Get User's Questions Fail !");
+            }
+
+            var result = await _userQuestionServices.GetUserQuestionAsync(userId, id);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id}")]
+        [Authorize]
+        public async Task<IActionResult> RemoveUserQuestion(int id)
+        {
+            var userId = HeaderExtensions.GetUserIdFromTokenHeader(HttpContext);
+
+            if (userId == String.Empty)
+            {
+                return BadRequest("Get User's Questions Fail !");
+            }
+
+            await _userQuestionServices.RemoveUserQuestionAsync(userId, id);
+            return Ok("Remove User Question Successfully !");
         }
     }
 }

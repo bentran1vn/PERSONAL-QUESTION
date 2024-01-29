@@ -34,5 +34,31 @@ namespace bentran1vn.question.src.Services.UserQuestion
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<UserQuestions> GetUserQuestionAsync(string userId, int questionId)
+        {
+            try
+            {
+                var result = await _userQuestionRepository.GetUserQuestionContentAsync(userId, questionId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task RemoveUserQuestionAsync(string userId, int questionId)
+        {
+            try
+            {
+                var question = await _userQuestionRepository.GetUserQuestionContentAsync(userId, questionId);
+                await _userQuestionRepository.RemoveUserQuestionAsync(question);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -26,6 +26,23 @@ namespace bentran1vn.question.src.Services.User
             _userManager = userManager;
             _signInManager = signInManager;
         }
+
+        public async Task<IEnumerable<Users>> GetAllUserAsync()
+        {
+            try
+            {
+                var result = await _accountRepository.GetAllUsersAsync();
+                if(!result.Any())
+                {
+                    throw new Exception("Users Not Found");
+                }
+                return result;
+            } catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public async Task<SignInRespones> SignInAsync(SignInModel model)
         {
             try
