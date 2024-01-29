@@ -30,5 +30,5 @@ Welcome to our web application dedicated to enhancing your study experience! Our
 ![Database ERD](https://github.com/bentran1vn/PERSONAL-QUESTION/blob/master/bentran1vn.question.public/database.png)
 
 ## Relational Schema
-
+![Database ERD](https://github.com/bentran1vn/PERSONAL-QUESTION/blob/master/bentran1vn.question.public/relationalSchema.png)
 #### © 2024 bentran-vn
