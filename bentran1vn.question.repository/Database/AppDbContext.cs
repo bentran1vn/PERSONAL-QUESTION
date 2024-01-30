@@ -62,6 +62,11 @@ namespace bentran1vn.question.repository.Database
                 .HasOne<UserQuestions>(ans => ans.UserQuestion)
                 .WithMany(ques => ques.QuestionAnswers)
                 .HasForeignKey(ans => ans.UserQuestionId);
+
+            modelBuilder.Entity<PublicQuestions>()
+                .HasOne<UserQuestions>(pub => pub.UserQuestions)
+                .WithOne(u => u.PublicQuestion)
+                .HasForeignKey<PublicQuestions>(p => p.UserQuestionId);
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -5,4 +5,9 @@
         True,
         False
     }
+    public enum LiveState
+    {
+        Active,
+        InActive
+    }
 }

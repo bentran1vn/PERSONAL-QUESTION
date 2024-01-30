@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using bentran1vn.question.repository.Database;
 
@@ -11,9 +12,10 @@ using bentran1vn.question.repository.Database;
 namespace bentran1vn.question.repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240130100320_PublicQuestuon")]
+    partial class PublicQuestuon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace bentran1vn.question.repository.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("bentran1vn.question.repository.Datas.Entities.PublicQuestions", b =>
+            modelBuilder.Entity("bentran1vn.question.repository.Datas.Entities.PublicQuestion", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -47,7 +49,7 @@ namespace bentran1vn.question.repository.Migrations
                     b.HasIndex("UserQuestionId")
                         .IsUnique();
 
-                    b.ToTable("PublicQuestions");
+                    b.ToTable("PublicQuestion");
                 });
 
             modelBuilder.Entity("bentran1vn.question.repository.Datas.Entities.QuestionAnswers", b =>
@@ -67,9 +69,6 @@ namespace bentran1vn.question.repository.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -98,9 +97,6 @@ namespace bentran1vn.question.repository.Migrations
 
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDate")
                         .HasColumnType("datetime2");
@@ -171,9 +167,6 @@ namespace bentran1vn.question.repository.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("State")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -404,11 +397,11 @@ namespace bentran1vn.question.repository.Migrations
                     b.ToTable("UserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("bentran1vn.question.repository.Datas.Entities.PublicQuestions", b =>
+            modelBuilder.Entity("bentran1vn.question.repository.Datas.Entities.PublicQuestion", b =>
                 {
                     b.HasOne("bentran1vn.question.repository.Datas.Entities.UserQuestions", "UserQuestions")
                         .WithOne("PublicQuestion")
-                        .HasForeignKey("bentran1vn.question.repository.Datas.Entities.PublicQuestions", "UserQuestionId")
+                        .HasForeignKey("bentran1vn.question.repository.Datas.Entities.PublicQuestion", "UserQuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
