@@ -1,5 +1,6 @@
 ﻿using bentran1vn.question.src.Requests.QuestionAnswers;
 using bentran1vn.question.src.Services.QuestionAnswer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,6 +18,7 @@ namespace bentran1vn.question.src.Controllers
         }
 
         [HttpGet("answer_id")]
+        [Authorize]
         public async Task<IActionResult> GetQuestionAnswer(int answer_id)
         {
             var result = await _questionAnswerServices.GetAnswerForQuestionAsync(answer_id);
@@ -24,6 +26,7 @@ namespace bentran1vn.question.src.Controllers
         }
 
         [HttpGet("")]
+        [Authorize]
         public async Task<IActionResult> GetAllQuestionAnswer(string question_id) 
         {
             var questionIdInt = int.Parse(question_id);
@@ -32,6 +35,7 @@ namespace bentran1vn.question.src.Controllers
         }
 
         [HttpPost("")]
+        [Authorize]
         public async Task<IActionResult> AddNewQuestionAnswer(AddNewQuestionAnswerModel model)
         {
             await _questionAnswerServices.AddAnswerForQuestionAsync(model);
@@ -39,6 +43,7 @@ namespace bentran1vn.question.src.Controllers
         }
 
         [HttpDelete("{answer_id}")]
+        [Authorize]
         public async Task<IActionResult> RemoveQuestionAnswer(int answer_id)
         {
             await _questionAnswerServices.RemoveAnswerForQuestionAsync(answer_id);
@@ -46,6 +51,7 @@ namespace bentran1vn.question.src.Controllers
         }
 
         [HttpPut("")]
+        [Authorize]
         public async Task<IActionResult> UpdateQuestionAnswer(UpdateQuestionAnswerModel model)
         {
             await _questionAnswerServices.UpdateAnswersForQuestionAsync(model);
