@@ -74,7 +74,7 @@ namespace bentran1vn.question.src.Repositories.RefreshToken
             {
                 try
                 {
-                    var result = context.Set<RefreshTokens>().Remove(refreshToken);
+                    context.Set<RefreshTokens>().Remove(refreshToken);
                     await context.SaveChangesAsync();
                 } catch(Exception ex)
                 {
