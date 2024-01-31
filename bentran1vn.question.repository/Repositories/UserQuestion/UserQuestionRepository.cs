@@ -56,7 +56,10 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
                 try
                 {
                     var result = await context.Set<UserQuestions>()
-                        .FirstOrDefaultAsync(ques => ques.UserId == userId && ques.Id == questionId);
+                        .Where(ques => ques.UserId == userId && ques.Id == questionId)
+                        .Include(ques => ques.User)
+                        .Include(ques => ques.PublicQuestion)
+                        .FirstOrDefaultAsync();
                     return result;
                 }
                 catch (Exception ex)
@@ -76,6 +79,21 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
                     await context.SaveChangesAsync();
                 }
                 catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        public async Task UpdateUserQuestionAsync(UserQuestions questions)
+        {
+            using(var context = new AppDbContext())
+            {
+                try
+                {
+                    context.Set<UserQuestions>().Update(questions);
+                    await context.SaveChangesAsync();
+                } catch(Exception ex)
                 {
                     throw new Exception(ex.Message);
                 }

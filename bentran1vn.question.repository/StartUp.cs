@@ -1,10 +1,12 @@
 ﻿using bentran1vn.question.repository.Database;
 using bentran1vn.question.repository.Datas.Entities;
 using bentran1vn.question.src.Middlewares;
+using bentran1vn.question.src.Repositories.PublicQuestion;
 using bentran1vn.question.src.Repositories.QuestionAnswer;
 using bentran1vn.question.src.Repositories.RefreshToken;
 using bentran1vn.question.src.Repositories.User;
 using bentran1vn.question.src.Repositories.UserQuestion;
+using bentran1vn.question.src.Services.PublicQuestion;
 using bentran1vn.question.src.Services.QuestionAnswer;
 using bentran1vn.question.src.Services.RefreshToken;
 using bentran1vn.question.src.Services.User;
@@ -181,11 +183,13 @@ namespace bentran1vn.question.repository
             services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
             services.AddScoped<IUserQuestionRepository, UserQuestionRepository>();
             services.AddScoped<IQuestionAnswerRepository, QuestionAnswerRepository>();
+            services.AddScoped<IPublicQuestionRepository, PublicQuestionRepository>();
 
             services.AddScoped<IUserServices, UserServices>();
             services.AddScoped<IRefreshTokenServices, RefreshTokenServices>();
             services.AddScoped<IUserQuestionServices, UserQuestionServices>();
             services.AddScoped<IQuestionAnswerServices, QuestionAnswerServices>();
+            services.AddScoped<IPublicQuestionServices, PublicQuestionServices>();
 
             services.AddTransient<IStartupFilter, RequestPipelineStartupFilter>();
         }

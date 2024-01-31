@@ -73,7 +73,7 @@ namespace bentran1vn.question.repository.Database
         {
             var insertedEntries = ChangeTracker.Entries()
                                .Where(x => x.State == EntityState.Added)
-                               .Select(x => x.Entity);
+                               .Select(x => x.Entity);              
 
             foreach (var insertedEntry in insertedEntries)
             {
@@ -91,7 +91,7 @@ namespace bentran1vn.question.repository.Database
             {
                 if (modifiedEntry is UserQuestions questionEntity)
                 {
-                    Entry(questionEntity).Property("UpdatedDate").CurrentValue = DateTimeOffset.UtcNow;
+                    Entry(questionEntity).Property("UpdatedDate").CurrentValue = DateTime.UtcNow;
                 }
             }
 

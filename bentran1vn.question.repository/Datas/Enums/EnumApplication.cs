@@ -10,4 +10,9 @@
         Active,
         InActive
     }
+    public enum IsPublic
+    {
+        True,
+        False
+    }
 }

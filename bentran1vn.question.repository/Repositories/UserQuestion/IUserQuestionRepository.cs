@@ -9,5 +9,6 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
         public Task<IEnumerable<UserQuestions>> GetAllUserQuestionAsync(string userId);
         public Task<UserQuestions> GetUserQuestionContentAsync(string userId, int questionId);
         public Task RemoveUserQuestionAsync(UserQuestions questions);
+        public Task UpdateUserQuestionAsync(UserQuestions questions);
     }
 }

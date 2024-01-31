@@ -7,14 +7,16 @@ namespace bentran1vn.question.repository.Datas.Entities
         public int Id { get; set; }
         public string Content { get; set; }
         public LiveState State { get; set; }
+        public IsPublic IsPublic { get; set; }
         public string UserId { get; set; }
         public Users User { get; set; }
-        public PublicQuestions PublicQuestion { get; set; }
+        public PublicQuestions PublicQuestion { get; set; } = null!;
         public ICollection<QuestionAnswers> QuestionAnswers { get; set; }
         public UserQuestions() 
         {
             QuestionAnswers = new List<QuestionAnswers>() { };
             State = LiveState.Active;
+            IsPublic = IsPublic.False;
         }
     }
 }
