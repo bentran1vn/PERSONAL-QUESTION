@@ -20,40 +20,74 @@ namespace bentran1vn.question.src.Services.PublicQuestion
             _userQuestionServices = userQuestionServices;
             _userQuestionRepository = userQuestionRepository;
         }
-        public async Task PublicUserQuestion(int questionId, string userId)
+
+        public async Task<IEnumerable<PublicQuestions>> GetPublicQuestionsAsync(int page, int num_of_question)
         {
             try
             {
-                var question = await _userQuestionServices.GetUserQuestionAsync(userId, questionId);
-                if (question == null || question.State == LiveState.InActive || question.IsPublic == IsPublic.True) 
-                {
-                    throw new Exception("Invalid Question !");
-                }
-                question.IsPublic = IsPublic.True;
-                //Task updateQuesTask = _userQuestionRepository.UpdateUserQuestionAsync(question);
-                //Task publicQuesTask = _publicQuestionRepository.PublicUserQuestion
-                await _userQuestionRepository.UpdateUserQuestionAsync(question);
-                await _publicQuestionRepository.PublicUserQuestion(new PublicQuestions()
-                {
-                    UserQuestionId = questionId,
-                }
-                );
-                //await Task.WhenAll(updateQuesTask, publicQuesTask);
-            } catch(Exception ex)
+                var question = await _publicQuestionRepository.GetAllPublicQuestions(page, num_of_question);
+                return question;
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-
-        public async Task UnPublicUserQuestion(int questionId)
+        public async Task PublicUserQuestionAsync(int questionId, string userId)
         {
             try
             {
-                var question = await _publicQuestionRepository.GetPublicQuestion(questionId);
+                var question = await _userQuestionServices.GetUserQuestionAsync(userId, questionId);
+                if (question == null || question.State == LiveState.InActive) 
+                {
+                    throw new Exception("Invalid Question !");
+                }
+                if(question.IsPublic == IsPublic.True)
+                {
+                    throw new Exception("Already Public Question !");
+                }
+                question.IsPublic = IsPublic.True;
+                Task updateQuesTask = _userQuestionRepository.UpdateUserQuestionAsync(question);
+                Task publicQuesTask = _publicQuestionRepository.PublicUserQuestion(
+                    new PublicQuestions()
+                {
+                    UserQuestionId = questionId,
+                });
+                await Task.WhenAll(updateQuesTask, publicQuesTask);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task UnPublicUserQuestionAsync(int questionId, string userId)
+        {
+            try
+            {
+                var question = await _publicQuestionRepository.GetUserPublicQuestion(questionId, userId);
                 question.State = LiveState.InActive;
+                Task updatePub =  _publicQuestionRepository.UpdatePublicQuestionAsync(question);
                 var userQuestion = question.UserQuestions;
                 userQuestion.IsPublic = IsPublic.False;
-                await _userQuestionRepository.UpdateUserQuestionAsync(userQuestion);
+                Task updateUserPub = _userQuestionRepository.UpdateUserQuestionAsync(userQuestion);
+                await Task.WhenAll(updatePub, updateUserPub);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public async Task UnPublicUserQuestionAsync(int user_question_Id)
+        {
+            try
+            {
+                var question = await _publicQuestionRepository.GetPublicQuestion(user_question_Id);
+                question.State = LiveState.InActive;
+                Task upPub = _publicQuestionRepository.UpdatePublicQuestionAsync(question);
+                var userQuestion = question.UserQuestions;
+                userQuestion.IsPublic = IsPublic.False;
+                Task upUserPub = _userQuestionRepository.UpdateUserQuestionAsync(userQuestion);
+                await Task.WhenAll(upPub, upUserPub);
             }
             catch (Exception ex)
             {

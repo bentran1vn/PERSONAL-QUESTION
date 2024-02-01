@@ -16,19 +16,35 @@ namespace bentran1vn.question.src.Controllers
             _publicQuestionServices = publicQuestionServices;
         }
 
-        [HttpPost("public")]
+        [HttpGet("")]
+        //[Authorize]
+        public async Task<IActionResult> GetAllPublicQuestion(int page, int num_of_question)
+        {
+            var result = await _publicQuestionServices.GetPublicQuestionsAsync(page, num_of_question);
+            return Ok(result);
+        }
+
+        [HttpDelete("admin")]
+        public async Task<IActionResult> UnPublicQuestion(int questionId)
+        {
+            await _publicQuestionServices.UnPublicUserQuestionAsync(questionId);
+            return Ok("Public User Question Successfully !");
+        }
+
+        [HttpPost("")]
         [Authorize]
         public async Task<IActionResult> PublicUserQuesion(int questionId)
         {
             var userId = HeaderExtensions.GetUserIdFromTokenHeader(HttpContext);
-            await _publicQuestionServices.PublicUserQuestion(questionId, userId);
+            await _publicQuestionServices.PublicUserQuestionAsync(questionId, userId);
             return Ok("Public User Question Successfully !");
         }
 
-        [HttpPost("unpublic")]
+        [HttpDelete("user")]
         public async Task<IActionResult> UnPublicUserQuesion(int questionId)
         {
-            await _publicQuestionServices.UnPublicUserQuestion(questionId);
+            var userId = HeaderExtensions.GetUserIdFromTokenHeader(HttpContext);
+            await _publicQuestionServices.UnPublicUserQuestionAsync(questionId, userId);
             return Ok("Public User Question Successfully !");
         }
     }

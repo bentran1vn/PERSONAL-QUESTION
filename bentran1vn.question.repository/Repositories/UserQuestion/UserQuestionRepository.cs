@@ -31,7 +31,27 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
             }
         }
 
-        public async Task<IEnumerable<UserQuestions>> GetAllUserQuestionAsync(string userId)
+        public async Task AddNewUserQuestionAsync(UserQuestions user_question)
+        {
+            using (var context = new AppDbContext())
+            {
+                try
+                {
+                    var result = await context.Set<UserQuestions>().AddAsync(user_question);
+                    if (result == null)
+                    {
+                        throw new Exception("Fail to Adding New Question");
+                    }
+                    await context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
+        public async Task<IEnumerable<UserQuestions>> GetAllUserQuestionAsync(string userId, int page, int num_of_ele)
         {
             using (var context = new AppDbContext())
             {
@@ -39,6 +59,7 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
                 {
                     var result = await context.Set<UserQuestions>()
                         .Where(ques => ques.UserId == userId)
+                        .Skip(num_of_ele * page).Take(num_of_ele)
                         .ToListAsync();
                     return result;
                 }
@@ -101,3 +122,4 @@ namespace bentran1vn.question.src.Repositories.UserQuestion
         }
     }
 }
+    

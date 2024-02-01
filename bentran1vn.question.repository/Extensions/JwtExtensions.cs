@@ -109,7 +109,7 @@ namespace bentran1vn.question.src.Extensions
                 Audience = configuration.GetValue<string>("JWT:ValidAudience"),
                 Issuer = configuration.GetValue<string>("JWT:ValidIssuer"),
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = credential,
             };
 

@@ -13,6 +13,7 @@
     public enum IsPublic
     {
         True,
-        False
+        False,
+        NotMine
     }
 }
