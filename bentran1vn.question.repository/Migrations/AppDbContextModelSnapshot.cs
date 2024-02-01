@@ -8,7 +8,7 @@ using bentran1vn.question.repository.Database;
 
 #nullable disable
 
-namespace bentran1vn.question.repository.Migrations
+namespace bentran1vn.question.src.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
